@@ -13,11 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     canvas = new Canvas(this);
     this->setCentralWidget(canvas);
 
-//    QMenuBar *menuBar= new QMenuBar(this);
-////    QMenu *colorMenu= menuBar->addMenu("Color");
-//    menuBar->addMenu("Color");
 
-    // 创建菜单栏
     QMenuBar *menuBar = new QMenuBar(this);
     QMenu *colorMenu = new QMenu("Colors", this);
     QMenu *clearMenu = new QMenu("Clear", this);
@@ -27,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     for (auto &pair: colorNames) {
         colorMenu->addAction(new QAction(pair.second.c_str(), this));
     }
-}
 
     menuBar->addMenu(colorMenu);
     menuBar->addMenu(clearMenu);
@@ -43,15 +38,18 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setBlack() {
-
+    penColor = Qt::black;
+    canvas->penColor = penColor;
 }
 
 void MainWindow::setRed() {
-
+    penColor = Qt::red;
+    canvas->penColor = penColor;
 }
 
 void MainWindow::setGreen() {
-
+    penColor = Qt::green;
+    canvas->penColor = penColor;
 }
 
 void MainWindow::setBlue() {

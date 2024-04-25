@@ -5,6 +5,9 @@
 #ifndef P20_CODE_CANVAS_H
 #define P20_CODE_CANVAS_H
 
+#define INIT_WIDTH 5000
+#define INIT_HEIGHT 5000
+
 #include <QWidget>
 #include <QPainter>
 #include <QMouseEvent>
@@ -14,6 +17,7 @@ Q_OBJECT
 
 public:
     Canvas(QWidget *parent = nullptr);
+    QColor penColor;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -26,7 +30,6 @@ protected:
 private:
     QPoint lastPoint;
     QImage img;
-    QPainter &painter;
 };
 
 

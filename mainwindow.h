@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
+
 #include <QMainWindow>
 #include "canvas.h"
 
@@ -21,9 +23,10 @@ public:
 private:
     Ui::MainWindow *ui;
     Canvas *canvas;
+    QColor penColor;
 
 private slots:
-    void setBlack(
+    void setBlack();
     void setRed();
     void setGreen();
     void setBlue();

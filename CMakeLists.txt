@@ -21,6 +21,7 @@ set(PROJECT_SOURCES
         canvas.h
         colors.cpp
         colors.h
+        canvas.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
