@@ -22,6 +22,14 @@ set(PROJECT_SOURCES
         colors.cpp
         colors.h
         canvas.cpp
+        ReceiveCanvas.cpp
+        ReceiveCanvas.h
+        DrawingCommand.cpp
+        DrawingCommand.h
+        Sender.cpp
+        Sender.h
+        Receiver.cpp
+        Receiver.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
