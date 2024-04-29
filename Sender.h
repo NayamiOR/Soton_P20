@@ -6,7 +6,7 @@
 #define P20_CODE_SENDER_H
 
 #include "DrawingCommand.h"
-#include <wiringPi.h>
+//#include <wiringPi.h>
 
 
 class Sender {

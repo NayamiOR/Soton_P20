@@ -4,6 +4,6 @@
 
 #include "Sender.h"
 
-void sendCommand(DrawingCommand command) {
+void Sender::sendCommand(DrawingCommand command) {
 
 }
