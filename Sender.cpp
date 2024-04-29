@@ -3,3 +3,7 @@
 //
 
 #include "Sender.h"
+
+void sendCommand(DrawingCommand command) {
+
+}
