@@ -6,76 +6,45 @@
 #include <QMenu>
 #include <QStatusBar>
 #include "colors.h"
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    canvas = new Canvas(this);
-    this->setCentralWidget(canvas);
 
+    canvas = new Canvas(this);
+    receiveCanvas = new ReceiveCanvas(this);
+
+    QWidget *centralWidget = new QWidget(this);
+    auto *layout = new QHBoxLayout(centralWidget);
+    layout->addWidget(canvas);
+    layout->addWidget(receiveCanvas);
+    this->setCentralWidget(centralWidget);
 
     QMenuBar *menuBar = new QMenuBar(this);
     QMenu *colorMenu = new QMenu("Colors", this);
-    QMenu *clearMenu = new QMenu("Clear", this);
-    clearMenu->addAction("Clear");
-    clearMenu->addAction("Eraser");
+    QMenu *clearMenu = new QMenu("Tools", this);
+    QAction *clearAction = new QAction("Clear", this);
+    connect(clearAction, &QAction::triggered, [=]() {
+        canvas->clear();
+    });
+    clearMenu->addAction(clearAction);
 
+    // add color actions
     for (auto &pair: colorNames) {
-        colorMenu->addAction(new QAction(pair.second.c_str(), this));
+        QAction *action = new QAction(pair.second.c_str(), this);
+        colorMenu->addAction(action);
+        connect(action, &QAction::triggered, [=]() {
+            penColor = pair.first;
+            canvas->penColor = penColor;
+        });
     }
 
     menuBar->addMenu(colorMenu);
     menuBar->addMenu(clearMenu);
     this->setMenuBar(menuBar);
-
-    // 创建状态栏
-    QStatusBar *statusBar = new QStatusBar(this);
-    this->setStatusBar(statusBar);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-}
-
-void MainWindow::setBlack() {
-    penColor = Qt::black;
-    canvas->penColor = penColor;
-}
-
-void MainWindow::setRed() {
-    penColor = Qt::red;
-    canvas->penColor = penColor;
-}
-
-void MainWindow::setGreen() {
-    penColor = Qt::green;
-    canvas->penColor = penColor;
-}
-
-void MainWindow::setBlue() {
-
-}
-
-void MainWindow::setYellow() {
-
-}
-
-void MainWindow::setWhite() {
-
-}
-
-void MainWindow::setCyan() {
-
-}
-
-void MainWindow::setMagenta() {
-
-}
-
-void MainWindow::setClear() {
-
-}
-
-void MainWindow::setEraser() {
-
 }

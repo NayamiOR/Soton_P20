@@ -17,6 +17,7 @@ Q_OBJECT
 
 public:
     Canvas(QWidget *parent = nullptr);
+
     QColor penColor;
 
 protected:
@@ -25,11 +26,20 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
     void mouseMoveEvent(QMouseEvent *event) override;
+
     void resizeEvent(QResizeEvent *event) override;
 
 private:
     QPoint lastPoint;
     QImage img;
+
+signals:
+    void imgChanged();
+
+public slots:
+
+    void clear();
+
 };
 
 

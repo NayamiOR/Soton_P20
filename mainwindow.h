@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 
-
 #include <QMainWindow>
 #include "canvas.h"
+#include "ReceiveCanvas.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,19 +23,11 @@ public:
 private:
     Ui::MainWindow *ui;
     Canvas *canvas;
+    ReceiveCanvas *receiveCanvas;
     QColor penColor;
 
 private slots:
-    void setBlack();
-    void setRed();
-    void setGreen();
-    void setBlue();
-    void setYellow();
-    void setWhite();
-    void setCyan();
-    void setMagenta();
-    void setClear();
-    void setEraser();
+
 };
 
 #endif // MAINWINDOW_H

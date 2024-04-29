@@ -7,6 +7,7 @@
 Canvas::Canvas(QWidget *parent) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     img.fill(Qt::white);
+    penColor = Qt::blue;
 }
 
 void Canvas::mousePressEvent(QMouseEvent *event) {
@@ -18,13 +19,11 @@ void Canvas::mousePressEvent(QMouseEvent *event) {
 void Canvas::mouseMoveEvent(QMouseEvent *event) {
     if (event->buttons() & Qt::LeftButton) {
         QPainter painter(&img);
-        QPen pen;
-        pen.setColor(penColor);
-        pen.setWidth(2);
-        painter.setPen(pen);
+        painter.setPen(QPen(penColor, 2));
         painter.drawLine(lastPoint, event->pos());
         lastPoint = event->pos();
         update();
+        emit imgChanged();
     }
 }
 
@@ -43,4 +42,10 @@ void Canvas::resizeEvent(QResizeEvent *event) {
         img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
         img.fill(Qt::white);
     }
+}
+
+void Canvas::clear() {
+    img.fill(Qt::white);
+    update();
+    emit imgChanged();
 }

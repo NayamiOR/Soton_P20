@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <map>
+#include <QColor>
 
 enum Color {
     BLACK,
@@ -20,6 +21,15 @@ enum Color {
     MAGENTA
 };
 
-extern std::map<Color, std::string> colorNames ;
+//extern std::map<Color, std::string> colorNames ;
+
+struct ColorComparator {
+    bool operator()(const QColor& a, const QColor& b) const {
+        return a.name() < b.name();
+    }
+};
+
+extern std::map<QColor,std::string,ColorComparator> colorNames;
+
 
 #endif //P20_CODE_COLORS_H
