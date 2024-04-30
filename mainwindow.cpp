@@ -41,12 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *freeAction = new QAction("Free", this);
     QAction *lineAction = new QAction("Line", this);
     QAction *rectAction = new QAction("Rect", this);
-    QAction *circleAction = new QAction("Circle", this);
+    QAction *ellipseAction = new QAction("Ellipse", this);
     QAction *clearAction = new QAction("Clear", this);
     penMenu->addAction(freeAction);
     penMenu->addAction(lineAction);
     penMenu->addAction(rectAction);
-    penMenu->addAction(circleAction);
+    penMenu->addAction(ellipseAction);
     penMenu->addAction(clearAction);
 
     connect(freeAction, &QAction::triggered, [=]() {
@@ -61,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
         canvas->penType = DrawingCommandType::Rect;
     });
 
-    connect(circleAction, &QAction::triggered, [=]() {
-        canvas->penType = DrawingCommandType::Circle;
+    connect(ellipseAction, &QAction::triggered, [=]() {
+        canvas->penType = DrawingCommandType::Ellipse;
     });
 
     connect(clearAction, &QAction::triggered, [=]() {

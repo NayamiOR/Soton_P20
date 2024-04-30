@@ -12,12 +12,13 @@ enum class DrawingCommandType {
     Line,
     Rect,
     Free,
-    Circle,
+    Ellipse,
     Clear
 };
 class DrawingCommand {
 public:
     DrawingCommand(DrawingCommandType type) : type(type) {}
+    DrawingCommand(DrawingCommandType type, QPoint start) : type(type), start(start) {}
     DrawingCommand(DrawingCommandType type, QPoint start, QPoint end) : type(type), start(start), end(end) {}
     void setStart(QPoint start) {
         this->start = start;

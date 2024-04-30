@@ -37,8 +37,10 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
+    QImage tempImg;
     QPoint lastPoint;
     QImage img;
+    QImage lastImg;
 
 signals:
     void imgChanged();
