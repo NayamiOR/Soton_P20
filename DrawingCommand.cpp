@@ -24,3 +24,51 @@ QPoint DrawingCommand::getEnd() const {
 DrawingCommandType DrawingCommand::getType() const {
     return type;
 }
+
+std::vector<QPoint> DrawingCommand::getTrace() const {
+    return trace;
+}
+
+void DrawingCommand::addTrace(QPoint point) {
+    trace.push_back(point);
+}
+
+void DrawingCommand::printCommand() const {
+    std::cout << "Complete Command: ";
+    switch (getType()) {
+        case DrawingCommandType::Free:
+            std::cout << "Free";
+            break;
+        case DrawingCommandType::Line:
+            std::cout << "Line";
+            break;
+        case DrawingCommandType::Rect:
+            std::cout << "Rect";
+            break;
+        case DrawingCommandType::Ellipse:
+            std::cout << "Ellipse";
+            break;
+        case DrawingCommandType::Clear:
+            std::cout << "Clear";
+            return;
+    }
+    std::cout << " where starts at (" << getStart().x() << "," << getStart().y() << ") and ends at (" << getEnd().x()
+              << "," << getEnd().y() << ")" << std::endl;
+
+}
+
+void DrawingCommand::setColor(QColor color) {
+    this->color = color;
+}
+
+QColor DrawingCommand::getColor() const {
+    return color;
+}
+
+void DrawingCommand::setWidth(int width) {
+    this->width = width;
+}
+
+int DrawingCommand::getWidth() const {
+    return width;
+}

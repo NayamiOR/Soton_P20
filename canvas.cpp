@@ -28,6 +28,9 @@ void Canvas::mousePressEvent(QMouseEvent *event) {
     }
     if (currentCommand == nullptr) {
         currentCommand = new DrawingCommand(penType, lastPoint);
+        if (currentCommand->getType()==DrawingCommandType::Free){
+            currentCommand->addTrace(lastPoint);
+        }
     }
 }
 
@@ -38,6 +41,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event) {
         painter.setPen(QPen(penColor, 2));
         switch (penType) {
             case DrawingCommandType::Free:
+                currentCommand->addTrace(event->pos());
                 painter.drawLine(lastPoint, event->pos());
                 lastPoint = event->pos();
                 break;
@@ -71,29 +75,10 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
         //完成当前命令，TODO: 把当前命令加入到命令列表中
         currentCommand->setEnd(event->pos());
-        auto printCommand =[=]()->void{
-            std::cout<<"Complete Command: ";
-            switch (currentCommand->getType()) {
-                case DrawingCommandType::Free:
-                    std::cout<<"Free";
-                    break;
-                case DrawingCommandType::Line:
-                    std::cout<<"Line";
-                    break;
-                case DrawingCommandType::Rect:
-                    std::cout<<"Rect";
-                    break;
-                case DrawingCommandType::Ellipse:
-                    std::cout<<"Ellipse";
-                    break;
-                case DrawingCommandType::Clear:
-                    std::cout<<"Clear";
-                    break;
-            }
-            std::cout<<" where starts at ("<<currentCommand->getStart().x()<<","<<currentCommand->getStart().y()<<") and ends at ("<<currentCommand->getEnd().x()<<","<<currentCommand->getEnd().y()<<")"<<std::endl;
-            currentCommand=nullptr;
-        };
-        printCommand();
+
+        currentCommand->printCommand();
+        delete currentCommand;
+        currentCommand=nullptr;
 
         //把tempImg画到img上
         QPainter painter(&img);
@@ -126,9 +111,13 @@ void Canvas::resizeEvent(QResizeEvent *event) {
 }
 
 void Canvas::clear() {
+    auto clearCommand=new DrawingCommand(DrawingCommandType::Clear);
+    clearCommand->printCommand();
+    delete currentCommand;
+    clearCommand=nullptr;
     img.fill(Qt::white);
     tempImg.fill(Qt::white);
-    lastImg=img;
+    lastImg.fill(Qt::white);
     update();
     emit imgChanged();
 }
