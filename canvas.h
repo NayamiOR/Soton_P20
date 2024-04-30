@@ -13,6 +13,7 @@
 #include <QMouseEvent>
 #include "DrawingCommand.h"
 #include "Sender.h"
+#include <iostream>
 
 class Canvas : public QWidget {
 Q_OBJECT

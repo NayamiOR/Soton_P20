@@ -23,7 +23,8 @@ Canvas::Canvas(QWidget *parent) {
 void Canvas::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         lastPoint = event->pos();
-        lastImg = img;
+        QPainter painter(&tempImg);
+        painter.drawImage(0, 0, img);
     }
     if (currentCommand == nullptr) {
         currentCommand = new DrawingCommand(penType, lastPoint);
@@ -67,13 +68,37 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
     }
     if (event->button() == Qt::LeftButton) {
         lastPoint = event->pos();
+
         //完成当前命令，TODO: 把当前命令加入到命令列表中
         currentCommand->setEnd(event->pos());
+        auto printCommand =[=]()->void{
+            std::cout<<"Complete Command: ";
+            switch (currentCommand->getType()) {
+                case DrawingCommandType::Free:
+                    std::cout<<"Free";
+                    break;
+                case DrawingCommandType::Line:
+                    std::cout<<"Line";
+                    break;
+                case DrawingCommandType::Rect:
+                    std::cout<<"Rect";
+                    break;
+                case DrawingCommandType::Ellipse:
+                    std::cout<<"Ellipse";
+                    break;
+                case DrawingCommandType::Clear:
+                    std::cout<<"Clear";
+                    break;
+            }
+            std::cout<<" where starts at ("<<currentCommand->getStart().x()<<","<<currentCommand->getStart().y()<<") and ends at ("<<currentCommand->getEnd().x()<<","<<currentCommand->getEnd().y()<<")"<<std::endl;
+            currentCommand=nullptr;
+        };
+        printCommand();
+
         //把tempImg画到img上
         QPainter painter(&img);
         painter.drawImage(QPoint(0, 0), tempImg);
         //清空tempImg
-//        tempImg.fill(Qt::transparent);
         QPainter painter2(&tempImg);
         painter2.drawImage(QPoint(0, 0), img);
         update();
