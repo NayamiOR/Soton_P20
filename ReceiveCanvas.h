@@ -13,6 +13,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QMouseEvent>
+#include "DrawingCommand.h"
 
 class ReceiveCanvas: public QWidget {
 Q_OBJECT
@@ -23,6 +24,11 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void drawFreeCommand(DrawingCommand *command);
+    void drawLineCommand(DrawingCommand *command);
+    void drawRectCommand(DrawingCommand *command);
+    void drawEllipseCommand(DrawingCommand *command);
+    void clear();
 
 private:
     QPoint lastPoint;

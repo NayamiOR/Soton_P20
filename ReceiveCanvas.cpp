@@ -25,3 +25,39 @@ void ReceiveCanvas::resizeEvent(QResizeEvent *event) {
         img.fill(Qt::white);
     }
 }
+
+void ReceiveCanvas::drawFreeCommand(DrawingCommand *command) {
+    QPainter painter(&img);
+    painter.setPen(QPen(command->getColor(), command->getWidth(), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    if (command->getTrace().size() < 2) {
+        return;
+    }
+    for (int i = 1; i < command->getTrace().size(); i++) {
+        QPoint p1 = command->getTrace().at(i - 1);
+        QPoint p2 = command->getTrace().at(i);
+        painter.drawLine(p1, p2);
+    }
+}
+
+void ReceiveCanvas::drawLineCommand(DrawingCommand *command) {
+    QPainter painter(&img);
+    painter.setPen(QPen(command->getColor(), command->getWidth(), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawLine(command->getStart(), command->getEnd());
+}
+
+void ReceiveCanvas::drawRectCommand(DrawingCommand *command) {
+    QPainter painter(&img);
+    painter.setPen(QPen(command->getColor(), command->getWidth(), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawRect(QRect(command->getStart(), command->getEnd()));
+}
+
+void ReceiveCanvas::drawEllipseCommand(DrawingCommand *command) {
+    QPainter painter(&img);
+    painter.setPen(QPen(command->getColor(), command->getWidth(), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter.drawEllipse(QRect(command->getStart(), command->getEnd()));
+}
+
+void ReceiveCanvas::clear() {
+    img.fill(Qt::white);
+    update();
+}
