@@ -15,17 +15,23 @@ enum class DrawingCommandType {
     Ellipse,
     Clear
 };
+
 class DrawingCommand {
 public:
     DrawingCommand(DrawingCommandType type) : type(type) {}
-    DrawingCommand(DrawingCommandType type, QPoint start) : type(type), start(start) {}
+
+    DrawingCommand(DrawingCommandType type, QPoint start) : type(type), start(start) {
+        if (type == DrawingCommandType::Free)
+            trace.push_back(start);
+    }
+
     DrawingCommand(DrawingCommandType type, QPoint start, QPoint end) : type(type), start(start), end(end) {}
-    void setStart(QPoint start) {
-        this->start = start;
-    }
-    void setEnd(QPoint end) {
-        this->end = end;
-    }
+
+    void setEnd(QPoint end) ;
+    void setStart(QPoint start) ;
+    QPoint getStart() const;
+    QPoint getEnd() const;
+    DrawingCommandType getType() const;
 
 private:
     QPoint end;
