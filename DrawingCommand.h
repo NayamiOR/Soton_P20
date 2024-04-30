@@ -30,6 +30,13 @@ public:
             trace.push_back(start);
     }
 
+    DrawingCommand(DrawingCommandType type, QPoint start, QColor color, int width) : type(type), start(start),
+                                                                                      end(QPoint(0, 0)),
+                                                                                      color(color), width(width) {
+        if (type == DrawingCommandType::Free)
+            trace.push_back(start);
+    }
+
     DrawingCommand(DrawingCommandType type, QPoint start, QPoint end, QColor color, int width) : type(type),
                                                                                                  start(start), end(end),
                                                                                                  color(color),

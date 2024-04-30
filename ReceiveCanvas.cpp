@@ -3,10 +3,13 @@
 //
 
 #include "ReceiveCanvas.h"
+#include "canvas.h"
 
 ReceiveCanvas::ReceiveCanvas(QWidget *parent) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     img.fill(Qt::white);
+    Canvas parentCanvas;
+    connect(&parentCanvas, &Canvas::commandFinished, this, &ReceiveCanvas::receiveCommand);
 }
 
 
@@ -59,5 +62,27 @@ void ReceiveCanvas::drawEllipseCommand(DrawingCommand *command) {
 
 void ReceiveCanvas::clear() {
     img.fill(Qt::white);
+    update();
+}
+
+void ReceiveCanvas::receiveCommand(DrawingCommand *command) {
+    command->printCommand();
+    switch (command->getType()) {
+        case DrawingCommandType::Free:
+            drawFreeCommand(command);
+            break;
+        case DrawingCommandType::Line:
+            drawLineCommand(command);
+            break;
+        case DrawingCommandType::Rect:
+            drawRectCommand(command);
+            break;
+        case DrawingCommandType::Ellipse:
+            drawEllipseCommand(command);
+            break;
+        case DrawingCommandType::Clear:
+            clear();
+            break;
+    }
     update();
 }

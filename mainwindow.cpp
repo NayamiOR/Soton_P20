@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     // create two canvas
     canvas = new Canvas(this);
     receiveCanvas = new ReceiveCanvas(this);
+    connect(canvas, &Canvas::commandFinished, receiveCanvas, &ReceiveCanvas::receiveCommand);
     QWidget *centralWidget = new QWidget(this);
     auto *layout = new QHBoxLayout(centralWidget);
     layout->addWidget(canvas);
@@ -18,13 +19,20 @@ MainWindow::MainWindow(QWidget *parent)
     QMenuBar *menuBar = new QMenuBar(this);
     this->setMenuBar(menuBar);
     QMenu *colorMenu = new QMenu("Colors", this);
-    QMenu *toolsMenu = new QMenu("Tools", this);
+    QMenu *width = new QMenu("Width", this);
     QMenu *penMenu = new QMenu("Pen", this);
     menuBar->addMenu(colorMenu);
-    menuBar->addMenu(toolsMenu);
+    menuBar->addMenu(width);
     menuBar->addMenu(penMenu);
 
-
+    // add width actions
+    for (int i = 1; i <= 10; i++) {
+        QAction *action = new QAction(QString::number(i), this);
+        width->addAction(action);
+        connect(action, &QAction::triggered, [=]() {
+            canvas->setPenWidth(i);
+        });
+    }
 
     // colorMenu
     // add color actions
@@ -33,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
         colorMenu->addAction(action);
         connect(action, &QAction::triggered, [=]() {
             penColor = pair.first;
-            canvas->penColor = penColor;
+            canvas->setPenColor(penColor);
         });
     }
 

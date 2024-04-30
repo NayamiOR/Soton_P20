@@ -49,7 +49,7 @@ void DrawingCommand::printCommand() const {
             std::cout << "Ellipse";
             break;
         case DrawingCommandType::Clear:
-            std::cout << "Clear";
+            std::cout << "Clear"<<std::endl;
             return;
     }
     std::cout << " where starts at (" << getStart().x() << "," << getStart().y() << ") and ends at (" << getEnd().x()

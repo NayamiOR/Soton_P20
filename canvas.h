@@ -21,9 +21,16 @@ Q_OBJECT
 public:
     Canvas(QWidget *parent = nullptr);
 
-    QColor penColor;
     DrawingCommandType penType;
     DrawingCommand *currentCommand;
+
+    void setPenColor(QColor color);
+
+    QColor getPenColor();
+
+    void setPenWidth(int width);
+
+    int getPenWidth();
 
 
 protected:
@@ -38,15 +45,19 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    QImage tempImg;
-    QPoint lastPoint;
     QImage img;
+    QImage tempImg;
     QImage lastImg;
+    QPoint lastPoint;
+    QColor penColor;
+    int penWidth;
 
 signals:
-    void imgChanged();
+
+    void commandFinished(DrawingCommand *command);
 
 public slots:
+
     void clear();
 };
 
