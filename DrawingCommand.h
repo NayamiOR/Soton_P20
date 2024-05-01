@@ -6,9 +6,11 @@
 #define P20_CODE_DRAWINGCOMMAND_H
 
 #include <QPoint>
-#include<vector>
+#include <vector>
 #include <iostream>
 #include <QColor>
+#include <QIODevice>
+#include <QDataStream>
 
 enum class DrawingCommandType {
     Line,
@@ -20,27 +22,33 @@ enum class DrawingCommandType {
 
 class DrawingCommand {
 public:
-    DrawingCommand(DrawingCommandType type) : type(type), start(QPoint(0, 0)), end(QPoint(0, 0)), color(Qt::black),
-                                              width(2) {}
+    DrawingCommand(DrawingCommandType type, int id) : type(type), start(QPoint(0, 0)), end(QPoint(0, 0)),
+                                                      color(Qt::black), deviceID(id),
+                                                      width(2) {}
 
-    DrawingCommand(DrawingCommandType type, QPoint start) : type(type), start(start), end(QPoint(0, 0)),
-                                                            color(Qt::black),
-                                                            width(2) {
+    DrawingCommand(DrawingCommandType type, int id, QPoint start) : type(type), start(start), end(QPoint(0, 0)),
+                                                                    deviceID(id),
+                                                                    color(Qt::black),
+                                                                    width(2) {
         if (type == DrawingCommandType::Free)
             trace.push_back(start);
     }
 
-    DrawingCommand(DrawingCommandType type, QPoint start, QColor color, int width) : type(type), start(start),
-                                                                                      end(QPoint(0, 0)),
-                                                                                      color(color), width(width) {
+    DrawingCommand(DrawingCommandType type, int id, QPoint start, QColor color, int width) : type(type), start(start),
+                                                                                             deviceID(id),
+                                                                                             end(QPoint(0, 0)),
+                                                                                             color(color),
+                                                                                             width(width) {
         if (type == DrawingCommandType::Free)
             trace.push_back(start);
     }
 
-    DrawingCommand(DrawingCommandType type, QPoint start, QPoint end, QColor color, int width) : type(type),
-                                                                                                 start(start), end(end),
-                                                                                                 color(color),
-                                                                                                 width(width) {}
+    DrawingCommand(DrawingCommandType type, int id, QPoint start, QPoint end, QColor color, int width) : type(type),
+                                                                                                         deviceID(id),
+                                                                                                         start(start),
+                                                                                                         end(end),
+                                                                                                         color(color),
+                                                                                                         width(width) {}
 
     void setStart(QPoint start);
 
@@ -60,11 +68,17 @@ public:
 
     int getWidth() const;
 
+    int getDeviceID() const;
+
     void printCommand() const;
 
     DrawingCommandType getType() const;
 
     std::vector<QPoint> getTrace() const;
+
+    QByteArray serialize() const;
+
+    static DrawingCommand deserialize(const QByteArray &data);
 
 private:
     QPoint end;
@@ -73,6 +87,7 @@ private:
     std::vector<QPoint> trace;
     QColor color;
     int width;
+    int deviceID;
 };
 
 

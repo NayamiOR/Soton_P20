@@ -15,11 +15,13 @@
 #include "Sender.h"
 #include <iostream>
 
+class MainWindow;
+
 class Canvas : public QWidget {
 Q_OBJECT
 
 public:
-    Canvas(QWidget *parent = nullptr);
+    Canvas(QWidget *parent = nullptr,int id=0);
 
     DrawingCommandType penType;
     DrawingCommand *currentCommand;
@@ -51,6 +53,7 @@ private:
     QPoint lastPoint;
     QColor penColor;
     int penWidth;
+    int deviceID;
 
 signals:
 

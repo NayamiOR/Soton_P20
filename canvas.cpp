@@ -4,7 +4,7 @@
 
 #include "canvas.h"
 
-Canvas::Canvas(QWidget *parent) {
+Canvas::Canvas(QWidget *parent,int id) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     tempImg = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     img.fill(Qt::white);
@@ -14,6 +14,7 @@ Canvas::Canvas(QWidget *parent) {
     penWidth = 1;
     penType = DrawingCommandType::Free;
     currentCommand = nullptr;
+    deviceID=id;
 }
 
 // MOUSE EVENTS SECTION STARTS HERE
@@ -25,7 +26,8 @@ void Canvas::mousePressEvent(QMouseEvent *event) {
         QPainter painter(&tempImg);
         painter.drawImage(0, 0, img);
     }
-    currentCommand = new DrawingCommand(penType, lastPoint, penColor, penWidth);
+
+    currentCommand = new DrawingCommand(penType,deviceID, lastPoint, penColor, penWidth);
     if (currentCommand->getType() == DrawingCommandType::Free) {
         currentCommand->addTrace(lastPoint);
     }
@@ -72,8 +74,9 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
         //完成当前命令，TODO: 把当前命令加入到命令列表中
         currentCommand->setEnd(event->pos());
-
         currentCommand->printCommand();
+
+//        emit commandFinished(currentCommand);
 
         //把tempImg画到img上
         QPainter painter(&img);
@@ -106,7 +109,7 @@ void Canvas::resizeEvent(QResizeEvent *event) {
 }
 
 void Canvas::clear() {
-    auto clearCommand = new DrawingCommand(DrawingCommandType::Clear);
+    auto clearCommand =new DrawingCommand(DrawingCommandType::Clear,deviceID);
     emit commandFinished(clearCommand);
     clearCommand->printCommand();
     delete currentCommand;
