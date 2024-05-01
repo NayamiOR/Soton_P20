@@ -33,6 +33,10 @@ set(PROJECT_SOURCES
         Sender.h
         Receiver.cpp
         Receiver.h
+        SafeQueue.cpp
+        SafeQueue.h
+        threads.cpp
+        threads.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
