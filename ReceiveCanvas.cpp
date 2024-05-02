@@ -3,13 +3,14 @@
 //
 
 #include "ReceiveCanvas.h"
-#include "canvas.h"
+#include "Canvas.h"
 
-ReceiveCanvas::ReceiveCanvas(QWidget *parent) {
+ReceiveCanvas::ReceiveCanvas(QWidget *parent,int id) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     img.fill(Qt::white);
     Canvas parentCanvas;
     connect(&parentCanvas, &Canvas::commandFinished, this, &ReceiveCanvas::receiveCommand);
+    deviceID=id;
 }
 
 

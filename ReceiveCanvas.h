@@ -18,7 +18,7 @@ class ReceiveCanvas : public QWidget {
 Q_OBJECT
 
 public:
-    ReceiveCanvas(QWidget *parent = nullptr);
+    ReceiveCanvas(QWidget *parent = nullptr,int deviceID=0);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -38,6 +38,7 @@ protected:
 private:
     QPoint lastPoint;
     QImage img;
+    int deviceID;
 public slots:
 
     void receiveCommand(DrawingCommand *command);
