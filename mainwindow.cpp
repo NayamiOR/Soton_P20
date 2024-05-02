@@ -1,19 +1,25 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    // generate a random deviceID which is a 6-digit number
+    deviceID = QRandomGenerator::global()->bounded(1000000);
+    std::cout << "deviceID:" << deviceID << std::endl;
     // create two canvas
-    canvas = new Canvas(this);
-    receiveCanvas = new ReceiveCanvas(this);
-    connect(canvas, &Canvas::commandFinished, receiveCanvas, &ReceiveCanvas::receiveCommand);
+    canvas = new Canvas(this, deviceID);
+    receiveCanvas = new ReceiveCanvas(this, deviceID);
     QWidget *centralWidget = new QWidget(this);
     auto *layout = new QHBoxLayout(centralWidget);
     layout->addWidget(canvas);
     layout->addWidget(receiveCanvas);
     this->setCentralWidget(centralWidget);
+
+    //TODO
+    connect(canvas, &Canvas::commandFinished, receiveCanvas, &ReceiveCanvas::receiveCommand);
+    connect(canvas, &Canvas::commandFinished, this, &MainWindow::commandFinished);
 
     // create menubar
     QMenuBar *menuBar = new QMenuBar(this);
@@ -77,8 +83,25 @@ MainWindow::MainWindow(QWidget *parent)
         canvas->clear();
     });
 
+    // create threads
+    SafeQueue<QByteArray> commandQueue;
+    sendThread = new SendThread(deviceID, commandQueue);
+    receivedThread = new ReceivedThread(deviceID, commandQueue);
+    // connect command finished signal to start slot of sendThread
+    connect(this, &MainWindow::commandFinished, sendThread, &SendThread::sendSlot);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete canvas;
+    delete receiveCanvas;
 }
+
+
+void MainWindow::commandFinished(DrawingCommand *command) {
+}
+
+void MainWindow::commandReceived(DrawingCommand command) {
+
+}
+
