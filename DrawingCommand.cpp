@@ -49,7 +49,7 @@ void DrawingCommand::printCommand() const {
             std::cout << "Ellipse";
             break;
         case DrawingCommandType::Clear:
-            std::cout << "Clear"<<std::endl;
+            std::cout << "Clear" << std::endl;
             return;
     }
     std::cout << " where starts at (" << getStart().x() << "," << getStart().y() << ") and ends at (" << getEnd().x()
@@ -71,4 +71,27 @@ void DrawingCommand::setWidth(int width) {
 
 int DrawingCommand::getWidth() const {
     return width;
+}
+
+QByteArray DrawingCommand::serialize() const {
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << start << end << static_cast<int>(type) << color << width << deviceID;
+    return data;
+}
+
+DrawingCommand DrawingCommand::deserialize(const QByteArray &data) {
+    QDataStream stream(data);
+    QPoint start, end;
+    int type;
+    QColor color;
+    int width;
+    int deviceID;
+    stream >> start >> end >> type >> color >> width >> deviceID;
+    DrawingCommandType commandType = static_cast<DrawingCommandType>(type);
+    DrawingCommand command(commandType, deviceID, start, end, color, width);
+}
+
+int DrawingCommand::getDeviceID() const {
+    return deviceID;
 }
