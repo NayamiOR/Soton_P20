@@ -2,7 +2,7 @@
 // Created by Administrator on 2024/4/25.
 //
 
-#include "canvas.h"
+#include "Canvas.h"
 
 Canvas::Canvas(QWidget *parent,int id) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
