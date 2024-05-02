@@ -6,7 +6,6 @@
 #define P20_CODE_THREADS_H
 
 #include <thread>
-#include "Sender.h"
 #include "SafeQueue.h"
 #include "Receiver.h"
 #include "DrawingCommand.h"

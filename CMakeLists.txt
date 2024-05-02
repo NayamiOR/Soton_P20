@@ -20,23 +20,25 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        canvas.cpp
-        canvas.h
+        Canvas.cpp
+        Canvas.h
         colors.cpp
         colors.h
-        canvas.cpp
+        Canvas.cpp
         ReceiveCanvas.cpp
         ReceiveCanvas.h
         DrawingCommand.cpp
         DrawingCommand.h
-        Sender.cpp
-        Sender.h
         Receiver.cpp
         Receiver.h
         SafeQueue.cpp
         SafeQueue.h
         threads.cpp
         threads.h
+        SendThread.cpp
+        SendThread.h
+        ReceivedThread.cpp
+        ReceivedThread.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
