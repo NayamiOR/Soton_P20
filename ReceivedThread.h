@@ -6,24 +6,28 @@
 #define P20_CODE_RECEIVEDTHREAD_H
 
 #include <QThread>
+
+#include "ReceiveCanvas.h"
+#include "DrawingCommand.h"
 #include "SafeQueue.h"
 
 class ReceivedThread : public QThread {
 Q_OBJECT
 public:
-    ReceivedThread(int id, SafeQueue<QByteArray> &queue) : deviceID(id), commandQueue(queue) {}
-
+    ReceivedThread(int id, SafeQueue<QByteArray> &queue, ReceiveCanvas *canvas) : deviceID(id), commandQueue(queue) ,canvas(canvas),currentCommand(
+            nullptr) {};
     ~ReceivedThread();
 
-    void run() override;
+    [[noreturn]] void run() override;
 
-public slots:
-
-    void receiveSlot(QByteArray message);
-
+signals:
+        void commandReceived(DrawingCommand *command);
 private:
+
     SafeQueue<QByteArray> &commandQueue;
     int deviceID;
+    DrawingCommand *currentCommand;
+    ReceiveCanvas *canvas;
 };
 
 

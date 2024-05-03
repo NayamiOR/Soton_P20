@@ -76,73 +76,13 @@ GPIO 地线连接在一起，但注意不要将 5V 或 3.3V 引脚相互连接�
 
 ## 发送面板 - `Canvas`
 
-### 成员变量 & 函数
-
-```cpp
-public:
-    Canvas(QWidget *parent = nullptr,int id=0);
-
-    DrawingCommandType penType;
-    DrawingCommand *currentCommand;
-
-    void setPenColor(QColor color);
-
-    QColor getPenColor();
-
-    void setPenWidth(int width);
-
-    int getPenWidth();
-
-
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
-
-    void paintEvent(QPaintEvent *event) override;
-
-    void mouseMoveEvent(QMouseEvent *event) override;
-
-    void resizeEvent(QResizeEvent *event) override;
-
-    void mouseReleaseEvent(QMouseEvent *event) override;
-
-private:
-    QImage img;
-    QImage tempImg;
-    QImage lastImg;
-    QPoint lastPoint;
-    QColor penColor;
-    int penWidth;
-    int deviceID;
-```
-
-
-
-### 信号 & 槽
-
-```cpp
-signals:
-	// 每次完成一个命令就会发送这个命令，让发送线程发送这个命令。
-    void commandFinished(DrawingCommand *command);
-
-public slots:
-	// 接收来自 mainwindow 的菜单清除信号
-    void clear();
-```
-
-
-
 ## 接收面板 - `ReceiveCanvas`
 
 ## 颜色类 - `colors`
 
-- `enum Color`
-- `extern std::map<QCoaslor,std::string,ColorComparator> colorNames`
-  - 存储 `<QT颜色,颜色对应文字>` 的字典
-
 ## 发送线程 - `SendThread`
 
 ## 接收线程 - `ReceivedThread`
-
 
 ## 安全队列 - `SafeQueue`
 

@@ -29,12 +29,8 @@ set(PROJECT_SOURCES
         ReceiveCanvas.h
         DrawingCommand.cpp
         DrawingCommand.h
-        Receiver.cpp
-        Receiver.h
         SafeQueue.cpp
         SafeQueue.h
-        threads.cpp
-        threads.h
         SendThread.cpp
         SendThread.h
         ReceivedThread.cpp

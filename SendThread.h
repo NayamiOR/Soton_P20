@@ -13,7 +13,9 @@ class SendThread : public QThread {
 Q_OBJECT
 public:
     SendThread(int id, SafeQueue<QByteArray> &queue)
-            : deviceID(id), commandQueue(queue), currentCommand(nullptr) {}
+            : deviceID(id), commandQueue(queue), currentCommand(nullptr) {
+    std::cout<<"SendThread created"<<std::endl;
+}
 
     ~SendThread();
 

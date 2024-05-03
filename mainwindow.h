@@ -46,7 +46,7 @@ private:
     QColor penColor;
     SendThread *sendThread;
     ReceivedThread *receivedThread;
-    SafeQueue<DrawingCommand> commandQueue;
+    SafeQueue<QByteArray> commandQueue;
 
 
 private slots:

@@ -76,8 +76,6 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
         currentCommand->setEnd(event->pos());
         currentCommand->printCommand();
 
-//        emit commandFinished(currentCommand);
-
         //把tempImg画到img上
         QPainter painter(&img);
         painter.drawImage(QPoint(0, 0), tempImg);
@@ -90,6 +88,16 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 // MOUSE EVENTS SECTION ENDS HERE
+
+void Canvas::clear() {
+    auto clearCommand =new DrawingCommand(DrawingCommandType::Clear,deviceID);
+    clearCommand->printCommand();
+    img.fill(Qt::white);
+    tempImg.fill(Qt::white);
+    lastImg.fill(Qt::white);
+    update();
+    emit commandFinished(clearCommand);
+}
 
 void Canvas::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
@@ -108,17 +116,7 @@ void Canvas::resizeEvent(QResizeEvent *event) {
     }
 }
 
-void Canvas::clear() {
-    auto clearCommand =new DrawingCommand(DrawingCommandType::Clear,deviceID);
-    emit commandFinished(clearCommand);
-    clearCommand->printCommand();
-    delete currentCommand;
-    clearCommand = nullptr;
-    img.fill(Qt::white);
-    tempImg.fill(Qt::white);
-    lastImg.fill(Qt::white);
-    update();
-}
+
 
 void Canvas::setPenColor(QColor color) {
     this->penColor = color;

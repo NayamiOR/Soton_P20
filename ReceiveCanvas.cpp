@@ -9,7 +9,6 @@ ReceiveCanvas::ReceiveCanvas(QWidget *parent,int id) {
     img = QImage(INIT_WIDTH, INIT_HEIGHT, QImage::Format_RGB32);
     img.fill(Qt::white);
     Canvas parentCanvas;
-    connect(&parentCanvas, &Canvas::commandFinished, this, &ReceiveCanvas::receiveCommand);
     deviceID=id;
 }
 
@@ -33,6 +32,7 @@ void ReceiveCanvas::resizeEvent(QResizeEvent *event) {
 void ReceiveCanvas::drawFreeCommand(DrawingCommand *command) {
     QPainter painter(&img);
     painter.setPen(QPen(command->getColor(), command->getWidth(), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+
     if (command->getTrace().size() < 2) {
         return;
     }
@@ -67,6 +67,7 @@ void ReceiveCanvas::clear() {
 }
 
 void ReceiveCanvas::receiveCommand(DrawingCommand *command) {
+    std::cout<<"RECEIVE_CANVAS: Receive command: ";
     command->printCommand();
     switch (command->getType()) {
         case DrawingCommandType::Free:
