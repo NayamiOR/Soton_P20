@@ -8,6 +8,8 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <iostream>
+#include <QByteArray>
 
 template <typename T>
 class SafeQueue {

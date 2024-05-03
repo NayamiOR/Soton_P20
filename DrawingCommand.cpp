@@ -34,7 +34,6 @@ void DrawingCommand::addTrace(QPoint point) {
 }
 
 void DrawingCommand::printCommand() const {
-    std::cout << "Complete Command: ";
     switch (getType()) {
         case DrawingCommandType::Free:
             std::cout << "Free";
@@ -52,9 +51,6 @@ void DrawingCommand::printCommand() const {
             std::cout << "Clear" << std::endl;
             return;
     }
-    std::cout << " where starts at (" << getStart().x() << "," << getStart().y() << ") and ends at (" << getEnd().x()
-              << "," << getEnd().y() << ")" << std::endl;
-
 }
 
 void DrawingCommand::setColor(QColor color) {
@@ -77,6 +73,12 @@ QByteArray DrawingCommand::serialize() const {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
     stream << start << end << static_cast<int>(type) << color << width << deviceID;
+    if (type == DrawingCommandType::Free) {
+        for (auto &point: trace) {
+            stream << point;
+        }
+    }
+
     return data;
 }
 
@@ -87,9 +89,19 @@ DrawingCommand DrawingCommand::deserialize(const QByteArray &data) {
     QColor color;
     int width;
     int deviceID;
+    std::vector<QPoint> trace;
+
     stream >> start >> end >> type >> color >> width >> deviceID;
+    if (type == static_cast<int>(DrawingCommandType::Free)) {
+        while (!stream.atEnd()) {
+            QPoint point;
+            stream >> point;
+            trace.push_back(point);
+        }
+    }
     DrawingCommandType commandType = static_cast<DrawingCommandType>(type);
-    DrawingCommand command(commandType, deviceID, start, end, color, width);
+    DrawingCommand command(commandType, deviceID, start, end, color, width, trace);
+    return command;
 }
 
 int DrawingCommand::getDeviceID() const {

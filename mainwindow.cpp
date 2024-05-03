@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // generate a random deviceID which is a 6-digit number
     deviceID = QRandomGenerator::global()->bounded(1000000);
-    std::cout << "deviceID:" << deviceID << std::endl;
     // create two canvas
     canvas = new Canvas(this, deviceID);
     receiveCanvas = new ReceiveCanvas(this, deviceID);
@@ -16,10 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(canvas);
     layout->addWidget(receiveCanvas);
     this->setCentralWidget(centralWidget);
-
-    //TODO
-    connect(canvas, &Canvas::commandFinished, receiveCanvas, &ReceiveCanvas::receiveCommand);
-    connect(canvas, &Canvas::commandFinished, this, &MainWindow::commandFinished);
 
     // create menubar
     QMenuBar *menuBar = new QMenuBar(this);
@@ -84,11 +79,16 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     // create threads
-    SafeQueue<QByteArray> commandQueue;
+    std::cout << "create sendThread" << std::endl;
     sendThread = new SendThread(deviceID, commandQueue);
-    receivedThread = new ReceivedThread(deviceID, commandQueue);
-    // connect command finished signal to start slot of sendThread
-    connect(this, &MainWindow::commandFinished, sendThread, &SendThread::sendSlot);
+    std::cout << "create receivedThread" << std::endl;
+    receivedThread = new ReceivedThread(deviceID, commandQueue, receiveCanvas);
+
+    connect(canvas,&Canvas::commandFinished,sendThread,&SendThread::sendSlot);
+    connect(receivedThread, &ReceivedThread::commandReceived, receiveCanvas, &ReceiveCanvas::receiveCommand);
+
+    sendThread->start();
+    receivedThread->start();
 }
 
 MainWindow::~MainWindow() {
@@ -99,6 +99,7 @@ MainWindow::~MainWindow() {
 
 
 void MainWindow::commandFinished(DrawingCommand *command) {
+
 }
 
 void MainWindow::commandReceived(DrawingCommand command) {
