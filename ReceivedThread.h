@@ -14,14 +14,18 @@
 class ReceivedThread : public QThread {
 Q_OBJECT
 public:
-    ReceivedThread(int id, SafeQueue<QByteArray> &queue, ReceiveCanvas *canvas) : deviceID(id), commandQueue(queue) ,canvas(canvas),currentCommand(
-            nullptr) {};
+    ReceivedThread(int id, SafeQueue<QByteArray> &queue, ReceiveCanvas *canvas) : deviceID(id), commandQueue(queue),
+                                                                                  canvas(canvas), currentCommand(
+                    nullptr) {};
+
     ~ReceivedThread();
 
     [[noreturn]] void run() override;
 
 signals:
-        void commandReceived(DrawingCommand *command);
+
+    void commandReceived(DrawingCommand *command);
+
 private:
 
     SafeQueue<QByteArray> &commandQueue;

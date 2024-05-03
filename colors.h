@@ -21,7 +21,6 @@ enum Color {
     MAGENTA
 };
 
-//extern std::map<Color, std::string> colorNames ;
 
 struct ColorComparator {
     bool operator()(const QColor& a, const QColor& b) const {

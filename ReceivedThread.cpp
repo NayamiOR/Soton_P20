@@ -14,10 +14,6 @@
 
         std::cout << "receive currentCommand in receivedthread" << std::endl;
         auto front = commandQueue.front();
-//        auto currentCommand=DrawingCommand::deserialize(front);
-//        currentCommand=&DrawingCommand::deserialize(front);
-//        *this->currentCommand=DrawingCommand::deserialize(front);
-//        currentCommand=DrawingCommand::deserialize(front);
         currentCommand = new DrawingCommand(front);
         std::cout << "receive currentCommand: ";
         currentCommand->printCommand();
@@ -32,7 +28,6 @@
 //        }
         commandQueue.pop();
         emit commandReceived(currentCommand);
-//        emit commandReceived(currentCommand);
     }
 }
 
