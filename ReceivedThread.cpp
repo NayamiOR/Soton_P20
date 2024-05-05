@@ -25,9 +25,3 @@
         emit commandReceived(currentCommand);
     }
 }
-
-ReceivedThread::~ReceivedThread() {
-
-}
-
-

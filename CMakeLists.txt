@@ -36,8 +36,8 @@ set(PROJECT_SOURCES
         ReceivedThread.h
         SharedBoolVar.cpp
         SharedBoolVar.h
-        physical.cpp
-        physical.h
+        Physical.cpp
+        Physical.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -14,12 +14,10 @@ Q_OBJECT
 public:
     SendThread(int id, SafeQueue<QByteArray> &queue)
             : deviceID(id), commandQueue(queue), currentCommand(nullptr) {
-    std::cout<<"SendThread created"<<std::endl;
-}
+        std::cout << "SendThread created" << std::endl;
+    }
 
-    ~SendThread();
-
-    void run() override;
+    [[noreturn]] void run() override;
 
 public slots:
 
