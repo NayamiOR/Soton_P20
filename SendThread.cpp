@@ -20,7 +20,6 @@ void SendThread::run() {
             currentCommand->printCommand();
             auto data = currentCommand->serialize();
             commandQueue.push(data);
-            std::cout<<"send command"<<std::endl<<"----------------"<<std::endl;
             currentCommand = nullptr;
         }
     }

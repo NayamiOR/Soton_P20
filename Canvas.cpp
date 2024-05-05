@@ -74,7 +74,6 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
         //完成当前命令，TODO: 把当前命令加入到命令列表中
         currentCommand->setEnd(event->pos());
-        currentCommand->printCommand();
 
         //把tempImg画到img上
         QPainter painter(&img);
@@ -91,7 +90,6 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
 void Canvas::clear() {
     auto clearCommand =new DrawingCommand(DrawingCommandType::Clear,deviceID);
-    clearCommand->printCommand();
     img.fill(Qt::white);
     tempImg.fill(Qt::white);
     lastImg.fill(Qt::white);

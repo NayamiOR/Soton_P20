@@ -5,12 +5,12 @@
 #include "DrawingCommand.h"
 
 
-void DrawingCommand::setEnd(QPoint end) {
-    this->end = end;
+void DrawingCommand::setEnd(QPoint e) {
+    this->end = e;
 }
 
-void DrawingCommand::setStart(QPoint start) {
-    this->start = start;
+void DrawingCommand::setStart(QPoint s) {
+    this->start = s;
 }
 
 QPoint DrawingCommand::getStart() const {
@@ -51,18 +51,22 @@ void DrawingCommand::printCommand() const {
             std::cout << "Clear" << std::endl;
             return;
     }
+    std::cout << " " << getDeviceID() << " " << getStart().x() << " " << getStart().y() << " " << getEnd().x() << " "
+              << getEnd().y() << " " << getColor().red() << " " << getColor().green() << " " << getColor().blue() << " "
+              << getWidth() << std::endl;
+    std::cout << trace.size() << std::endl;
 }
 
-void DrawingCommand::setColor(QColor color) {
-    this->color = color;
+void DrawingCommand::setColor(QColor c) {
+    this->color = std::move(c);
 }
 
 QColor DrawingCommand::getColor() const {
     return color;
 }
 
-void DrawingCommand::setWidth(int width) {
-    this->width = width;
+void DrawingCommand::setWidth(int w) {
+    this->width = w;
 }
 
 int DrawingCommand::getWidth() const {
@@ -99,11 +103,33 @@ DrawingCommand DrawingCommand::deserialize(const QByteArray &data) {
             trace.push_back(point);
         }
     }
-    DrawingCommandType commandType = static_cast<DrawingCommandType>(type);
+    auto commandType = static_cast<DrawingCommandType>(type);
     DrawingCommand command(commandType, deviceID, start, end, color, width, trace);
     return command;
 }
 
 int DrawingCommand::getDeviceID() const {
     return deviceID;
+}
+
+std::vector<int> DrawingCommand::toIntVector() const {
+    std::vector<int> data;
+    QByteArray serialized = serialize();
+    data.reserve(serialized.size());
+    for (int i = 0; i < serialized.size(); i++) {
+        data.push_back((int) serialized.data()[i]);
+    }
+    return data;
+}
+
+std::vector<bool> DrawingCommand::toBoolVector() const {
+    std::vector<bool> data;
+    QByteArray serialized = serialize();
+    data.reserve(serialized.size() * 8);
+    for (int i = 0; i < serialized.size(); i++) {
+        for (int j = 0; j < 8; j++) {
+            data.push_back(serialized.data()[i] & (1 << j));
+        }
+    }
+    return data;
 }

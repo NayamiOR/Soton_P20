@@ -9,10 +9,9 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_CLANG_TIDY "")
 
-#这个错误是因为你在使用Ninja生成器时，CMake试图修改一个从构建树中的RPATH，但是这在非ELF或XCOFF平台上是不支持的。你可以通过设置CMAKE_BUILD_WITH_INSTALL_RPATH变量来避免这个重新链接步骤。
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-#这将使得在构建时就设置好安装RPATH，从而避免在安装时进行重新链接。这样做的一个可能的副作用是，如果你的安装RPATH依赖于目标在构建树中的位置，那么这可能会导致问题，因为构建RPATH将不再包含这些位置。然而，对于许多项目来说，这可能并不是问题。
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES

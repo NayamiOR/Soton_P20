@@ -6,6 +6,7 @@
 #define P20_CODE_DRAWINGCOMMAND_H
 
 #include <QPoint>
+#include <utility>
 #include <vector>
 #include <iostream>
 #include <QColor>
@@ -37,7 +38,7 @@ public:
     DrawingCommand(DrawingCommandType type, int id, QPoint start, QColor color, int width) : type(type), start(start),
                                                                                              deviceID(id),
                                                                                              end(QPoint(0, 0)),
-                                                                                             color(color),
+                                                                                             color(std::move(color)),
                                                                                              width(width) {
         if (type == DrawingCommandType::Free)
             trace.push_back(start);
@@ -47,7 +48,8 @@ public:
                                                                                                          deviceID(id),
                                                                                                          start(start),
                                                                                                          end(end),
-                                                                                                         color(color),
+                                                                                                         color(std::move(
+                                                                                                                 color)),
                                                                                                          width(width) {}
 
     DrawingCommand(DrawingCommandType type, int id, QPoint start, QPoint end, QColor color, int width,
@@ -55,11 +57,11 @@ public:
                                                 deviceID(id),
                                                 start(start),
                                                 end(end),
-                                                color(color),
+                                                color(std::move(color)),
                                                 width(width),
                                                 trace(std::move(trace)) {}
 
-    DrawingCommand(const QByteArray& data) {
+    DrawingCommand(const QByteArray &data) {
         auto cmd = deserialize(data);
         this->type = cmd.getType();
         this->start = cmd.getStart();
@@ -70,21 +72,55 @@ public:
         this->trace = cmd.getTrace();
     }
 
-    void setStart(QPoint start);
+    DrawingCommand(const std::vector<int> &data) {
+        QByteArray data2;
+        for (int i: data) {
+            data2.append((char) i);
+        }
+        auto cmd = deserialize(data2);
+        this->type = cmd.getType();
+        this->start = cmd.getStart();
+        this->end = cmd.getEnd();
+        this->color = cmd.getColor();
+        this->width = cmd.getWidth();
+        this->deviceID = cmd.getDeviceID();
+        this->trace = cmd.getTrace();
+    }
+
+    DrawingCommand(const std::vector<bool> &data) {
+        std::vector<int> data2;
+        for (bool i: data) {
+            data2.push_back(i);
+        }
+        QByteArray data3;
+        for (int i: data2) {
+            data3.append((char) i);
+        }
+        auto cmd = deserialize(data3);
+        this->type = cmd.getType();
+        this->start = cmd.getStart();
+        this->end = cmd.getEnd();
+        this->color = cmd.getColor();
+        this->width = cmd.getWidth();
+        this->deviceID = cmd.getDeviceID();
+        this->trace = cmd.getTrace();
+    }
+
+    void setStart(QPoint s);
 
     QPoint getStart() const;
 
-    void setEnd(QPoint end);
+    void setEnd(QPoint e);
 
     QPoint getEnd() const;
 
     void addTrace(QPoint point);
 
-    void setColor(QColor color);
+    void setColor(QColor c);
 
     QColor getColor() const;
 
-    void setWidth(int width);
+    void setWidth(int w);
 
     int getWidth() const;
 
@@ -100,14 +136,18 @@ public:
 
     static DrawingCommand deserialize(const QByteArray &data);
 
+    std::vector<int> toIntVector() const;
+
+    std::vector<bool> toBoolVector() const;
+
 private:
-    QPoint end;
-    QPoint start;
     DrawingCommandType type;
-    std::vector<QPoint> trace;
+    int deviceID;
+    QPoint start;
+    QPoint end;
     QColor color;
     int width;
-    int deviceID;
+    std::vector<QPoint> trace;
 };
 
 
