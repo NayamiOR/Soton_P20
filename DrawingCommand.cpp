@@ -133,3 +133,14 @@ std::vector<bool> DrawingCommand::toBoolVector() const {
     }
     return data;
 }
+
+std::vector<bool> DrawingCommand::qByteArrayToBoolVector(const QByteArray &data) {
+    std::vector<bool> boolData;
+    boolData.reserve(data.size() * 8);
+    for (int i = 0; i < data.size(); i++) {
+        for (int j = 0; j < 8; j++) {
+            boolData.push_back(data.data()[i] & (1 << j));
+        }
+    }
+    return boolData;
+}

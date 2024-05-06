@@ -140,6 +140,8 @@ public:
 
     std::vector<bool> toBoolVector() const;
 
+    static std::vector<bool> qByteArrayToBoolVector(const QByteArray &data);
+
 private:
     DrawingCommandType type;
     int deviceID;

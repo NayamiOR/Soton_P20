@@ -5,11 +5,13 @@
 #ifndef P20_CODE_RECEIVEDTHREAD_H
 #define P20_CODE_RECEIVEDTHREAD_H
 
+#include <vector>
 #include <QThread>
 
 #include "ReceiveCanvas.h"
 #include "DrawingCommand.h"
 #include "SafeQueue.h"
+#include "Physical.h"
 
 class ReceivedThread : public QThread {
 Q_OBJECT
@@ -18,16 +20,14 @@ public:
                                                                                   canvas(canvas), currentCommand(
                     nullptr) {};
 
-    ~ReceivedThread();
-
     [[noreturn]] void run() override;
+    DrawingCommand getCommand();
+
 
 signals:
-
     void commandReceived(DrawingCommand *command);
 
 private:
-
     SafeQueue<QByteArray> &commandQueue;
     int deviceID;
     DrawingCommand *currentCommand;

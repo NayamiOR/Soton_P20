@@ -8,6 +8,7 @@
 #include <QThread>
 #include "SafeQueue.h"
 #include "DrawingCommand.h"
+#include "Physical.h"
 
 class SendThread : public QThread {
 Q_OBJECT
