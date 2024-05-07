@@ -96,13 +96,3 @@ MainWindow::~MainWindow() {
     delete canvas;
     delete receiveCanvas;
 }
-
-
-void MainWindow::commandFinished(DrawingCommand *command) {
-
-}
-
-void MainWindow::commandReceived(DrawingCommand command) {
-
-}
-

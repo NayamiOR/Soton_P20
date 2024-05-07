@@ -46,7 +46,6 @@ public:
             pinMode(static_cast<int>(hasRead), INPUT);
             pinMode(static_cast<int>(transfering), OUTPUT);
             digitalWrite((int)isReady,LOW);
-//            digitalWrite((int)data,LOW);
             digitalWrite((int)transfering,LOW);
         } else if (mode == 0) {         //接收端
             pinMode(static_cast<int>(data), INPUT);

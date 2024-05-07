@@ -112,16 +112,6 @@ int DrawingCommand::getDeviceID() const {
     return deviceID;
 }
 
-//std::vector<int> DrawingCommand::toIntVector() const {
-//    std::vector<int> data;
-//    QByteArray serialized = serialize();
-//    data.reserve(serialized.size());
-//    for (int i = 0; i < serialized.size(); i++) {
-//        data.push_back((int) serialized.data()[i]);
-//    }
-//    return data;
-//}
-
 std::vector<bool> DrawingCommand::toBoolVector() const {
     auto byteArray = serialize();
     std::vector<bool> result;

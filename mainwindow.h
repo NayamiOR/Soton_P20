@@ -35,9 +35,7 @@ public:
 
     MainWindow(QWidget *parent = nullptr);
 
-    ~MainWindow();
-
-    void sendCommand(DrawingCommand command);
+    ~MainWindow() override;
 
 private:
     Ui::MainWindow *ui;
@@ -48,12 +46,6 @@ private:
     ReceivedThread *receivedThread;
     SafeQueue<QByteArray> commandQueue;
 
-
-private slots:
-
-    void commandFinished(DrawingCommand *command);
-
-    void commandReceived(DrawingCommand command);
 };
 
 #endif // MAINWINDOW_H

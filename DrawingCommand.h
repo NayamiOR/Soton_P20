@@ -72,21 +72,6 @@ public:
         this->trace = cmd.getTrace();
     }
 
-//    DrawingCommand(const std::vector<int> &data) {
-//        QByteArray data2;
-//        for (int i: data) {
-//            data2.append((char) i);
-//        }
-//        auto cmd = deserialize(data2);
-//        this->type = cmd.getType();
-//        this->start = cmd.getStart();
-//        this->end = cmd.getEnd();
-//        this->color = cmd.getColor();
-//        this->width = cmd.getWidth();
-//        this->deviceID = cmd.getDeviceID();
-//        this->trace = cmd.getTrace();
-//    }
-
     DrawingCommand(const std::vector<bool> &bits) {
         QByteArray result;
         for (size_t i = 0; i < bits.size(); i += 8) {
@@ -96,9 +81,7 @@ public:
             }
             result.append(byte);
         }
-//        return result;
-//        arr.reverse();
-//        std::reverse(arr.begin(), arr.end());
+
         auto cmd = deserialize(result);
         this->type = cmd.getType();
         this->start = cmd.getStart();
@@ -138,8 +121,6 @@ public:
     QByteArray serialize() const;
 
     static DrawingCommand deserialize(const QByteArray &data);
-
-//    std::vector<int> toIntVector() const;
 
     std::vector<bool> toBoolVector() const;
 
