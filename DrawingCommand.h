@@ -72,31 +72,34 @@ public:
         this->trace = cmd.getTrace();
     }
 
-    DrawingCommand(const std::vector<int> &data) {
-        QByteArray data2;
-        for (int i: data) {
-            data2.append((char) i);
-        }
-        auto cmd = deserialize(data2);
-        this->type = cmd.getType();
-        this->start = cmd.getStart();
-        this->end = cmd.getEnd();
-        this->color = cmd.getColor();
-        this->width = cmd.getWidth();
-        this->deviceID = cmd.getDeviceID();
-        this->trace = cmd.getTrace();
-    }
+//    DrawingCommand(const std::vector<int> &data) {
+//        QByteArray data2;
+//        for (int i: data) {
+//            data2.append((char) i);
+//        }
+//        auto cmd = deserialize(data2);
+//        this->type = cmd.getType();
+//        this->start = cmd.getStart();
+//        this->end = cmd.getEnd();
+//        this->color = cmd.getColor();
+//        this->width = cmd.getWidth();
+//        this->deviceID = cmd.getDeviceID();
+//        this->trace = cmd.getTrace();
+//    }
 
-    DrawingCommand(const std::vector<bool> &data) {
-        std::vector<int> data2;
-        for (bool i: data) {
-            data2.push_back(i);
+    DrawingCommand(const std::vector<bool> &bits) {
+        QByteArray result;
+        for (size_t i = 0; i < bits.size(); i += 8) {
+            char byte = 0;
+            for (size_t j = 0; j < 8; ++j) {
+                byte |= (bits[i + j] ? 1 : 0) << j;
+            }
+            result.append(byte);
         }
-        QByteArray data3;
-        for (int i: data2) {
-            data3.append((char) i);
-        }
-        auto cmd = deserialize(data3);
+//        return result;
+//        arr.reverse();
+//        std::reverse(arr.begin(), arr.end());
+        auto cmd = deserialize(result);
         this->type = cmd.getType();
         this->start = cmd.getStart();
         this->end = cmd.getEnd();
@@ -136,7 +139,7 @@ public:
 
     static DrawingCommand deserialize(const QByteArray &data);
 
-    std::vector<int> toIntVector() const;
+//    std::vector<int> toIntVector() const;
 
     std::vector<bool> toBoolVector() const;
 

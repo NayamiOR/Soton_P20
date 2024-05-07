@@ -51,10 +51,10 @@ void DrawingCommand::printCommand() const {
             std::cout << "Clear" << std::endl;
             return;
     }
-    std::cout << " " << getDeviceID() << " " << getStart().x() << " " << getStart().y() << " " << getEnd().x() << " "
+    std::cout << ": " << getDeviceID() << " " << getStart().x() << " " << getStart().y() << " " << getEnd().x() << " "
               << getEnd().y() << " " << getColor().red() << " " << getColor().green() << " " << getColor().blue() << " "
               << getWidth() << std::endl;
-    std::cout << trace.size() << std::endl;
+    std::cout << "Trace size: " << trace.size() << std::endl;
 }
 
 void DrawingCommand::setColor(QColor c) {
@@ -112,26 +112,26 @@ int DrawingCommand::getDeviceID() const {
     return deviceID;
 }
 
-std::vector<int> DrawingCommand::toIntVector() const {
-    std::vector<int> data;
-    QByteArray serialized = serialize();
-    data.reserve(serialized.size());
-    for (int i = 0; i < serialized.size(); i++) {
-        data.push_back((int) serialized.data()[i]);
-    }
-    return data;
-}
+//std::vector<int> DrawingCommand::toIntVector() const {
+//    std::vector<int> data;
+//    QByteArray serialized = serialize();
+//    data.reserve(serialized.size());
+//    for (int i = 0; i < serialized.size(); i++) {
+//        data.push_back((int) serialized.data()[i]);
+//    }
+//    return data;
+//}
 
 std::vector<bool> DrawingCommand::toBoolVector() const {
-    std::vector<bool> data;
-    QByteArray serialized = serialize();
-    data.reserve(serialized.size() * 8);
-    for (int i = 0; i < serialized.size(); i++) {
-        for (int j = 0; j < 8; j++) {
-            data.push_back(serialized.data()[i] & (1 << j));
+    auto byteArray = serialize();
+    std::vector<bool> result;
+    for (int i = 0; i < byteArray.size(); ++i) {
+        char byte = byteArray.at(i);
+        for (int j = 0; j < 8; ++j) {
+            result.push_back((byte >> j) & 1);
         }
     }
-    return data;
+    return result;
 }
 
 std::vector<bool> DrawingCommand::qByteArrayToBoolVector(const QByteArray &data) {
