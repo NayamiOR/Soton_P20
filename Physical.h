@@ -40,17 +40,20 @@ public:
     Physical(int mode, Pin data, Pin isReady, Pin hasRead, Pin transfering) : data(data), sending(isReady),
                                                                               hasRead(hasRead),
                                                                               transfering(transfering) {
-        wiringPiSetup();
         if (mode == 1) {                //发送端
             pinMode(static_cast<int>(data), OUTPUT);
             pinMode(static_cast<int>(isReady), OUTPUT);
             pinMode(static_cast<int>(hasRead), INPUT);
             pinMode(static_cast<int>(transfering), OUTPUT);
+            digitalWrite((int)isReady,LOW);
+//            digitalWrite((int)data,LOW);
+            digitalWrite((int)transfering,LOW);
         } else if (mode == 0) {         //接收端
             pinMode(static_cast<int>(data), INPUT);
             pinMode(static_cast<int>(isReady), INPUT);
             pinMode(static_cast<int>(hasRead), OUTPUT);
             pinMode(static_cast<int>(transfering), INPUT);
+            digitalWrite((int)hasRead,LOW);
         }
     }
 

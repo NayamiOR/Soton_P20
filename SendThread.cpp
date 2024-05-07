@@ -41,7 +41,6 @@
             }
             gpio.setTransfering(false);
         }
-
     }
 }
 

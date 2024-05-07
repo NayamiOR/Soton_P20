@@ -28,7 +28,7 @@ while(1){
         writePin(data->serial_pins->hasRead, TRUE);
     }
 */
-    std::vector<int> bits;
+    std::vector<bool> bits;
     while (true) {
         while (gpio.getSending()) { ; } //等到sending为false
         gpio.setRead(false);    //  此时传完一位，sending循环结束一轮
