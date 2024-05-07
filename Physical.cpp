@@ -5,8 +5,8 @@
 #include "Physical.h"
 
 void Physical::sendPin(Pin pin, bool bit) {
-    pinMode((int) pin, OUTPUT);
-    digitalWrite((int) pin, bit ? HIGH : LOW);
+    pinMode((int)pin, OUTPUT);
+    digitalWrite((int)pin, bit ? HIGH : LOW);
 }
 
 bool Physical::readPin(Pin pin) {
@@ -37,8 +37,8 @@ void Physical::setRead(bool bit) {
     sendPin(hasRead, bit);
 }
 
-void Physical::setTransfering(bool) {
-    sendPin(transfering, true);
+void Physical::setTransfering(bool bit) {
+    sendPin(transfering, bit);
 }
 
 bool Physical::getTransfering() {

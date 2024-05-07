@@ -14,6 +14,11 @@
         if (!commandQueue.empty()) {
             auto data = commandQueue.front();
             std::vector<bool> bits = DrawingCommand::qByteArrayToBoolVector(data);
+            std::cout<<"sending: "<<std::endl;
+            for (auto i :bits){
+                std::cout<<i<<" ";
+            }
+            std::cout<<std::endl<<std::endl;
             commandQueue.pop();
             /*
             for(unsigned int i = 0; i<bitfield.size(); i++){

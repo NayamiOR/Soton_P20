@@ -32,18 +32,36 @@ while(1){
     while (true) {
         while (gpio.getSending()) { ; } //等到sending为false
         gpio.setRead(false);    //  此时传完一位，sending循环结束一轮
-        while (!gpio.getSending()) {
-            // 本作用域中sending恒为false
-            if (gpio.getTransfering()) {
-//                DrawingCommand command(bits);
-                currentCommand=new DrawingCommand(bits);
-//                commandQueue.push(command.serialize());
-                bits.clear();
-                emit commandReceived(currentCommand);
+//        std::cout<<"sending is false and set read to false"<<std::endl;
+        delay(1);
+        if (!gpio.getTransfering()&&bits.size()!=0) {
+            std::cout<<"receiving: "<<std::endl;
+            for (auto i :bits){
+                std::cout<<i<<" ";
             }
+            std::cout<<std::endl<<std::endl;
+            currentCommand=new DrawingCommand(bits);
+            bits.clear();
+            emit commandReceived(currentCommand);
+        }
+        while (!gpio.getSending()) {    // when sending was set back to false and no new message is sending
+            ;
+            // 本作用域中sending恒为false
+//            if (!gpio.getTransfering()) {
+//                std::cout<<"receiving: "<<std::endl;
+//                for (auto i :bits){
+//                    std::cout<<i<<" ";
+//                }
+//                std::cout<<std::endl<<std::endl;
+//                currentCommand=new DrawingCommand(bits);
+//                bits.clear();
+//                emit commandReceived(currentCommand);
+//            }
          }    //等到sending为true
         bits.push_back(gpio.getData());
         gpio.setRead(true);     //读完之后设置read为true
+//        std::cout<<"now sending is true and set read to true"<<std::endl;
+
 //        if (commandQueue.empty()) {
 //            continue;
 //        }
