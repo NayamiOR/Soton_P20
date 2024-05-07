@@ -14,7 +14,7 @@
             std::vector<bool> bits = DrawingCommand::qByteArrayToBoolVector(data);
             std::cout<<"sending: "<<std::endl;
             for (auto i :bits){
-                std::cout<<i<<" ";
+                std::cout<<i;
             }
             std::cout<<std::endl<<std::endl;
             commandQueue.pop();

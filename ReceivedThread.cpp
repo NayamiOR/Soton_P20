@@ -17,7 +17,7 @@
         if (!gpio.getTransfering() && bits.size() != 0) {
             std::cout << "receiving: " << std::endl;
             for (auto i: bits) {
-                std::cout << i << " ";
+                std::cout << i;
             }
             std::cout << std::endl << std::endl;
             currentCommand = new DrawingCommand(bits);
@@ -26,8 +26,9 @@
         }
         while (!gpio.getSending()) {    // when sending was set back to false and no new message is sending
             ;
+        }
             bits.push_back(gpio.getData());
             gpio.setRead(true);     //读完之后设置read为true
-        }
+
     }
 }
