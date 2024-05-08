@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/4/25.
-//
-
 #include "Canvas.h"
 
 Canvas::Canvas(QWidget *parent,int id) {

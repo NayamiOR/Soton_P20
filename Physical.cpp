@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/3.
-//
-
 #include "Physical.h"
 
 void Physical::sendPin(Pin pin, bool bit) {

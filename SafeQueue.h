@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/1.
-//
-
 #ifndef P20_CODE_SAFEQUEUE_H
 #define P20_CODE_SAFEQUEUE_H
 

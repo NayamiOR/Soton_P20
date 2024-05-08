@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/3.
-//
-
 #ifndef P20_CODE_SHAREDBOOLVAR_H
 #define P20_CODE_SHAREDBOOLVAR_H
 

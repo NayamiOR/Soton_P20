@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 24-4-25.
-//
-
 #ifndef P20_CODE_COLORS_H
 #define P20_CODE_COLORS_H
 

@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/4/29.
-//
-
 #ifndef P20_CODE_DRAWINGCOMMAND_H
 #define P20_CODE_DRAWINGCOMMAND_H
 

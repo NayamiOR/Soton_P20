@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/4/25.
-//
-
 #include "ReceiveCanvas.h"
 #include "Canvas.h"
 

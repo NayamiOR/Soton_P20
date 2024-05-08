@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/2.
-//
-
 #include "ReceivedThread.h"
 
 
@@ -23,7 +19,6 @@
             emit commandReceived(currentCommand);
         }
         gpio.setRead(false);    //  此时传完一位，sending循环结束一轮
-//        delay(1);
 
         while (!gpio.getSending()) {    // when sending was set back to false and no new message is sending
             ;

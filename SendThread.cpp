@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/2.
-//
-
 #include "SendThread.h"
 #include <fstream>
 
@@ -20,7 +16,6 @@
             commandQueue.pop();
 
             gpio.setTransfering(true);
-//            for (auto bit: bits) {
                 for(int i=0;i<bits.size();i++){
                 auto bit=bits[i];
                 gpio.setData(bit);

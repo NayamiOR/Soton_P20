@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 24-4-25.
-//
-
 #include "colors.h"
 
 

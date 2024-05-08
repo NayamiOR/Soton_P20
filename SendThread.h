@@ -1,7 +1,3 @@
-//
-// Created by Administrator on 2024/5/2.
-//
-
 #ifndef P20_CODE_SENDTHREAD_H
 #define P20_CODE_SENDTHREAD_H
 
