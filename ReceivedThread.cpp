@@ -12,8 +12,6 @@
     std::vector<bool> bits;
     while (true) {
         while (gpio.getSending()) { ; } //等到sending为false
-        gpio.setRead(false);    //  此时传完一位，sending循环结束一轮
-        delay(1);
         if (!gpio.getTransfering() && bits.size() != 0) {
             std::cout << "receiving: " << std::endl;
             for (auto i: bits) {
@@ -24,6 +22,9 @@
             bits.clear();
             emit commandReceived(currentCommand);
         }
+        gpio.setRead(false);    //  此时传完一位，sending循环结束一轮
+//        delay(1);
+
         while (!gpio.getSending()) {    // when sending was set back to false and no new message is sending
             ;
         }

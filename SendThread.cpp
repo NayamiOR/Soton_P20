@@ -20,9 +20,13 @@
             commandQueue.pop();
 
             gpio.setTransfering(true);
-            for (auto bit: bits) {
+//            for (auto bit: bits) {
+                for(int i=0;i<bits.size();i++){
+                auto bit=bits[i];
                 gpio.setData(bit);
                 gpio.setSending(true);  //  发送
+                if (i==bits.size()-1)
+                    gpio.setTransfering(false);
                 while (!gpio.getRead()) { ; }   //  等到被读过
                 gpio.setSending(false); //  发送完了
                 while (gpio.getRead()) { ;}     //  等到改成没读过
