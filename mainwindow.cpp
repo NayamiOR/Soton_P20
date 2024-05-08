@@ -79,10 +79,14 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     // create threads
-    std::cout << "create sendThread" << std::endl;
-    sendThread = new SendThread(deviceID, commandQueue);
-    std::cout << "create receivedThread" << std::endl;
-    receivedThread = new ReceivedThread(deviceID, commandQueue, receiveCanvas);
+//    std::cout << "create sendThread" << std::endl;
+//    sendThread = new SendThread(deviceID, commandQueue);
+//    std::cout << "create receivedThread" << std::endl;
+//    receivedThread = new ReceivedThread(deviceID, commandQueue, receiveCanvas);
+
+    SharedVariables *vars = new SharedVariables();
+    sendThread = new SendThread(deviceID, commandQueue, vars);
+    receivedThread = new ReceivedThread(deviceID, commandQueue, receiveCanvas,vars);
 
     connect(canvas,&Canvas::commandFinished,sendThread,&SendThread::sendSlot);
     connect(receivedThread, &ReceivedThread::commandReceived, receiveCanvas, &ReceiveCanvas::receiveCommand);

@@ -20,6 +20,7 @@
 #include "DrawingCommand.h"
 #include "SendThread.h"
 #include "ReceivedThread.h"
+#include "SharedVariables.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

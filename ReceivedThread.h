@@ -11,7 +11,7 @@
 #include "ReceiveCanvas.h"
 #include "DrawingCommand.h"
 #include "SafeQueue.h"
-#include "Physical.h"
+#include "SharedVariables.h"
 
 class ReceivedThread : public QThread {
 Q_OBJECT
@@ -19,6 +19,9 @@ public:
     ReceivedThread(int id, SafeQueue<QByteArray> &queue, ReceiveCanvas *canvas) : deviceID(id), commandQueue(queue),
                                                                                   canvas(canvas), currentCommand(
                     nullptr) {};
+    ReceivedThread(int id, SafeQueue<QByteArray> &queue, ReceiveCanvas *canvas,SharedVariables *vars) : deviceID(id), commandQueue(queue),
+                                                                                  canvas(canvas), currentCommand(
+                    nullptr),vars(vars) {};
 
     [[noreturn]] void run() override;
     DrawingCommand getCommand();
@@ -32,6 +35,7 @@ private:
     int deviceID;
     DrawingCommand *currentCommand;
     ReceiveCanvas *canvas;
+    SharedVariables *vars;
 };
 
 

@@ -8,13 +8,17 @@
 #include <QThread>
 #include "SafeQueue.h"
 #include "DrawingCommand.h"
-#include "Physical.h"
+#include "SharedVariables.h"
 
 class SendThread : public QThread {
 Q_OBJECT
 public:
     SendThread(int id, SafeQueue<QByteArray> &queue)
             : deviceID(id), commandQueue(queue), currentCommand(nullptr) {
+        std::cout << "SendThread created" << std::endl;
+    }
+    SendThread(int id, SafeQueue<QByteArray> &queue, SharedVariables *vars)
+            : deviceID(id), commandQueue(queue), currentCommand(nullptr), vars(vars){
         std::cout << "SendThread created" << std::endl;
     }
 
@@ -25,6 +29,7 @@ public slots:
     void sendSlot(DrawingCommand *command);
 
 private:
+    SharedVariables *vars;
     SafeQueue<QByteArray> &commandQueue;
     int deviceID;
     DrawingCommand *currentCommand;

@@ -12,6 +12,7 @@
 class SharedBoolVar : public QObject {
 Q_OBJECT
 public:
+    SharedBoolVar() : value(false) {}
     SharedBoolVar(bool value) : value(value) {}
 
     void set(bool value) {
@@ -28,6 +29,7 @@ public:
         if (value) {
             emit available();
         }
+        cv.notify_all();
         return value;
     }
 
@@ -35,6 +37,15 @@ public:
         std::unique_lock<std::mutex> lock(mutex);
         cv.wait(lock, [this, target] { return value == target; });
         emit available();
+    }
+
+    SharedBoolVar &operator=(bool newValue) {
+        set(newValue);
+        return *this;
+    }
+
+    operator bool() {
+        return get();
     }
 
 private:

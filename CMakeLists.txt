@@ -14,7 +14,6 @@ set(CMAKE_CXX_CLANG_TIDY "")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -38,8 +37,8 @@ set(PROJECT_SOURCES
         ReceivedThread.h
         SharedBoolVar.cpp
         SharedBoolVar.h
-        Physical.cpp
-        Physical.h
+        SharedVariables.cpp
+        SharedVariables.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -66,7 +65,6 @@ else()
 endif()
 
 target_link_libraries(P20_Code PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(P20_Code PRIVATE ${WIRINGPI_LIBRARIES})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
